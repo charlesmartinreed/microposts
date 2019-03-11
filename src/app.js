@@ -26,20 +26,24 @@ function submitPost() {
 	const title = document.querySelector('#title').value;
 	const body = document.querySelector('#body').value;
 
-	const data = {
-		title,
-		body
-	}
+	if (title !== '' || body !== '') {
+		const data = {
+			title,
+			body
+		}
 
-	// Create the post
-	http.post(localURL, data)
-		.then(data => {
-			ui.showAlert('Post added', 'alert alert-success');
-			ui.clearFields();
-			//after the post is added, load the total posts into the DOM
-			getPosts();
-		})
-		.catch(err => console.log(err));
+		// Create the post
+		http.post(localURL, data)
+			.then(data => {
+				ui.showAlert('Post added', 'alert alert-success');
+				ui.clearFields();
+				//after the post is added, load the total posts into the DOM
+				getPosts();
+			})
+			.catch(err => console.log(err));
+	} else {
+		ui.showAlert('Please fill in all fields', 'alert alert-danger');
+	}
 }
 
 function deletePost(e) {

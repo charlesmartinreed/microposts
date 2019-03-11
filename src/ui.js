@@ -92,7 +92,7 @@ class UI {
 			this.postSubmit.className = `post-submit btn btn-primary btn-block`
 
 			//Remove cancel button, if there
-			if document.querySelector('.post-cancel') {
+			if (document.querySelector('.post-cancel')) {
 				document.querySelector('.post-cancel').remove();
 			}
 
