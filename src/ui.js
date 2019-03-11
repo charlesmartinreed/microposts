@@ -63,6 +63,43 @@ class UI {
 		this.titleInput.value = data.postTitle;
 		this.bodyInput.value = data.postBody;
 		this.idInput.value = data.id;
+
+		this.changeFormState('edit');
+	}
+
+	// Clear ID hidden value
+	clearIdInput() {
+		this.idInput.value = '';
+	}
+
+	// Changing our form state and UI
+	changeFormState(type) {
+		if(type === 'edit') {
+			this.postSubmit.textContent = 'Update Post';
+			this.postSubmit.className = `post-submit btn btn-warning btn-block`
+
+			//create cancel button to exit 'edit' state
+			const button = document.createElement('button');
+			button.className = 'post-cancel btn btn-light btn-block'
+			button.appendChild(document.createTextNode('Cancel Edit'));
+
+			const cardForm = document.querySelector('.card-form');
+			const formEnd = document.querySelector('.form-end');
+
+			cardForm.insertBefore(button, formEnd);
+		} else {
+			this.postSubmit.textContent = 'Post It!';
+			this.postSubmit.className = `post-submit btn btn-primary btn-block`
+
+			//Remove cancel button, if there
+			if document.querySelector('.post-cancel') {
+				document.querySelector('.post-cancel').remove();
+			}
+
+			// clear the ID from the hidden field
+			this.clearIdInput();
+			this.clearFields();
+		}
 	}
 }
 
