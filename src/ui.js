@@ -17,6 +17,12 @@ class UI {
 					<div class="card-body">
 						<h4 class="card-title">${post.title}</h4>
 						<p class="card-text">${post.body}</p>
+						<a href="#" class="edit card-link" data-id="${post.id}">
+							<i class="fas fa-pencil-alt"></i>
+						</a>
+						<a href="#" class="delete card-link" data-id="${post.id}">
+							<i class="far fa-trash-alt"></i>
+						</a>
 					</div>
 				</div>
 			`
