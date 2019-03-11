@@ -15,6 +15,10 @@ document.querySelector('#posts').addEventListener('click', deletePost);
 // LISTEN FOR EDIT STATE
 document.querySelector('#posts').addEventListener('click', enableEditState);
 
+// LISTEN FOR CANCEL EDIT/RETURN TO ADD STATE CHANGE
+document.querySelector('.card-form').addEventListener('click', cancelEditState);
+
+
 function getPosts() {
 	http.get(localURL)
 		// call our UI Post method
@@ -25,25 +29,35 @@ function getPosts() {
 function submitPost() {
 	const title = document.querySelector('#title').value;
 	const body = document.querySelector('#body').value;
+	const id = document.querySelector('#id').value;
+
 
 	if (title !== '' || body !== '') {
-		const data = {
-			title,
-			body
+		const data = { title, body }
+		if (id === '') {
+			// create a new post
+			http.post(localURL, data)
+				.then(data => {
+					ui.showAlert('Post added', 'alert alert-success');
+					ui.clearFields();
+					//after the post is added, load the total posts into the DOM
+					getPosts();
+				})
+				.catch(err => console.log(err));
+			} else {
+				// update the post with a put request
+				http.put(`${localURL}/${id}`, data)
+					.then(data => {
+						ui.showAlert('Post updated', 'alert alert-success');
+						ui.changeFormState('add');
+						//after the post is added, load the total posts into the DOM
+						getPosts();
+					})
+					.catch(err => console.log(err));
+			}
+		} else {
+				ui.showAlert('Please fill in all fields', 'alert alert-danger');
 		}
-
-		// Create the post
-		http.post(localURL, data)
-			.then(data => {
-				ui.showAlert('Post added', 'alert alert-success');
-				ui.clearFields();
-				//after the post is added, load the total posts into the DOM
-				getPosts();
-			})
-			.catch(err => console.log(err));
-	} else {
-		ui.showAlert('Please fill in all fields', 'alert alert-danger');
-	}
 }
 
 function deletePost(e) {
@@ -74,6 +88,14 @@ function enableEditState(e) {
 
 		// fill the UI form with the current post
 		ui.fillform(data);
+	}
+
+	e.preventDefault();
+}
+
+function cancelEditState(e) {
+	if(e.target.classList.contains('post-cancel')) {
+		ui.changeFormState('add');
 	}
 
 	e.preventDefault();
