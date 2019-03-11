@@ -28,6 +28,8 @@ function submitPost() {
 	// Create the post
 	http.post(localURL, data)
 		.then(data => {
+			ui.showAlert('Post added', 'alert alert-success');
+			ui.clearFields();
 			//after the post is added, load the total posts into the DOM
 			getPosts();
 		})
