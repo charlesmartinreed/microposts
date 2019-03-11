@@ -57,6 +57,13 @@ class UI {
 		this.titleInput.value = '';
 		this.bodyInput.value = '';
 	}
+
+	// Editing state: fill form on UI
+	fillform(data) {
+		this.titleInput.value = data.postTitle;
+		this.bodyInput.value = data.postBody;
+		this.idInput.value = data.id;
+	}
 }
 
 export const ui = new UI();

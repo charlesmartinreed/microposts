@@ -12,6 +12,9 @@ document.querySelector('.post-submit').addEventListener('click', submitPost);
 // LISTEN FOR DELETE POST
 document.querySelector('#posts').addEventListener('click', deletePost);
 
+// LISTEN FOR EDIT STATE
+document.querySelector('#posts').addEventListener('click', enableEditState);
+
 function getPosts() {
 	http.get(localURL)
 		// call our UI Post method
@@ -40,8 +43,6 @@ function submitPost() {
 }
 
 function deletePost(e) {
-	e.preventDefault();
-
 	if(e.target.parentElement.classList.contains('delete')) {
 		// this is why we define the data-id attribute when generating the posts
 		const id = e.target.parentElement.dataset.id;
@@ -55,4 +56,21 @@ function deletePost(e) {
 					.catch(err => console.log(err));
 		}
 	}
+	e.preventDefault();
+}
+
+function enableEditState(e) {
+	if(e.target.parentElement.classList.contains('edit')) {
+		// get the post info
+		const id = e.target.parentElement.dataset.id;
+		const postTitle = e.target.parentElement.previousElementSibling.previousElementSibling.textContent;
+		const postBody = e.target.parentElement.previousElementSibling.textContent;
+
+		const data = { id, postTitle, postBody }
+
+		// fill the UI form with the current post
+		ui.fillform(data);
+	}
+
+	e.preventDefault();
 }

@@ -4,6 +4,16 @@
       "title": "Post Three",
       "body": "Success?",
       "id": 3
+    },
+    {
+      "title": "This is another post",
+      "body": "What id is it?",
+      "id": 4
+    },
+    {
+      "title": "ababatet",
+      "body": "teametete",
+      "id": 5
     }
   ]
 }
